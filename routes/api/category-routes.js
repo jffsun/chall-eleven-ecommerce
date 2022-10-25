@@ -2,27 +2,104 @@ const router = require('express').Router();
 const { Category, Product } = require('../../models');
 
 // The `/api/categories` endpoint
+router.get('/', async (req, res) => {
+  try {
 
-router.get('/', (req, res) => {
-  // find all categories
-  // be sure to include its associated Products
+    // Find all categories and its associated Products
+   const allCategories = await Category.findAll({
+
+     include: [{ model: Product }],
+   })
+
+   // Return back data to user
+   return res.status(200).json(allCategories);
+
+  // Handle error catching
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  };
 });
 
-router.get('/:id', (req, res) => {
-  // find one category by its `id` value
-  // be sure to include its associated Products
+// Find one category by its `id` value and its associated Products
+router.get('/:id', async (req, res) => {
+
+  try {
+    const oneCategory = await 
+    Category.findOne({ 
+
+      // Find category in db with same id that user requests
+      where: req.body.id,
+      include: [{ model: Product }],
+    });
+
+    // Return requested category back to user 
+    return res.status(200).json(oneCategory);
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  };
 });
 
-router.post('/', (req, res) => {
-  // create a new category
+// Creates a new category
+router.post('/', async (req, res) => {
+  try {
+  
+    const newCategory = await Category.create({
+      category_name: req.body.category_name,
+  });
+  
+  // Confirm to user that category was created
+  res.status(200).json({newCategory, message : `Created Category!`})
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  };
 });
 
-router.put('/:id', (req, res) => {
-  // update a category by its `id` value
+// Update a category by its `id` value
+router.put('/:id', async (req, res) => {
+  try {
+    console.log('PUT REQUEST')
+    const updatedCategory = await Category.update(
+      {
+        category_name: req.body.category_name,
+      },
+      {
+        // Category ID is specified in route parameter in URL
+        where: {
+          id: req.params.id,
+        } 
+      }
+  );
+  
+  // Confirm to user that category was updated
+  res.status(200).json({updatedCategory, message : `Updated Category!`})
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  };
+
 });
 
-router.delete('/:id', (req, res) => {
-  // delete a category by its `id` value
+// Delete a category by its `id` value
+router.delete('/:id', async (req, res) => {
+  try {
+
+    const deletedCategory = await Category.destroy({
+        where: {
+            id: req.params.id,
+        },
+    });
+    res.status(200).json({deletedCategory, message: `Deleted Category!` });
+
+    } catch(err) {
+        console.log(err);
+        res.status(500).json(err);
+    };
 });
 
 module.exports = router;
