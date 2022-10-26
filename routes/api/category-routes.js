@@ -8,10 +8,10 @@ router.get('/', async (req, res) => {
     // Find all categories and its associated Products
    const allCategories = await Category.findAll({
 
-     include: [{ model: Product }],
+     include: { model: Product },
    })
 
-   // Return back data to user
+   // Return category data back to user
    return res.status(200).json(allCategories);
 
   // Handle error catching
@@ -30,7 +30,7 @@ router.get('/:id', async (req, res) => {
 
       // Find category in db with same id that user requests
       where: req.body.id,
-      include: [{ model: Product }],
+      include: { model: Product },
     });
 
     // Return requested category back to user 
