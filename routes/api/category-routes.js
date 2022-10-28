@@ -21,7 +21,7 @@ router.get('/', async (req, res) => {
   };
 });
 
-// Find one category by its `id` value and its associated Products
+// Get one category by its `id` value and its associated Products
 router.get('/:id', async (req, res) => {
 
   try {
@@ -29,8 +29,10 @@ router.get('/:id', async (req, res) => {
     Category.findOne({ 
 
       // Find category in db with same id that user requests
-      where: req.body.id,
-      include: { model: Product },
+      where: {
+        id: req.params.id,
+      },
+      include: { model: Product }
     });
 
     // Return requested category back to user 
