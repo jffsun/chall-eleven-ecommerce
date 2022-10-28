@@ -8,7 +8,12 @@ router.get('/', async (req, res) => {
     // Gets all products including its associated Category and Tag data
     const allProducts = await Product.findAll({
 
-      include: [{ model: Category }, { model: ProductTag }],
+      include: [ Category , 
+        {
+           model: Tag,
+          through: ProductTag, 
+        }
+      ],
    })
 
    // Return product data back to user
@@ -25,15 +30,18 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
 
   try {
-    const oneProduct = await 
-    Product.findOne({ 
+    const oneProduct = await Product.findOne({ 
 
-      // Find product in db with same id that user requests
+      // Find product in db with same id that user requests    
       where: {
         id: req.params.id,
       },
-      include: { model: Category },
-      include: { model: ProductTag}
+      include: [ Category , 
+        {
+           model: Tag,
+          through: ProductTag, 
+        }
+      ],
     });
 
     // Return requested category back to user 
@@ -45,7 +53,7 @@ router.get('/:id', async (req, res) => {
   };
 });
 
-// create new product
+// Create new product
 router.post('/', async (req, res) => {
 
   try {
@@ -58,7 +66,7 @@ router.post('/', async (req, res) => {
       tagIds: req.body.tagIds
     });
     
-    // if there's product tags
+      // If there's product tags
       if (req.body.tagIds.length) {
 
         // Create array with each tag_id 
@@ -68,7 +76,7 @@ router.post('/', async (req, res) => {
             tag_id,
           };
         });
-        // // Create pairings with array to bulk create in the ProductTag model
+        // Create pairings with array to bulk create in the ProductTag model
         ProductTag.bulkCreate(productTagIdArr);
 
         console.log(productTagIdArr);
