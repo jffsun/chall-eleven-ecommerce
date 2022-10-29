@@ -1,4 +1,4 @@
-# Challenge Eleven: Object-Relational Mapping (ORM) - E-commerce Back End
+# Challenge Eleven: Object-Relational Mapping - Ecommerce Back End
 
 ## Project Description
 
@@ -18,7 +18,7 @@ As shown in the video, CRUD operations are demonstrated for categories, products
 3. A new record is created.
 4. The new record is updated.
 5. The new record is then deleted.
-6. ALl records are then retrieved to show that the new record no longer exists.
+6. All records are then retrieved to show that the new record no longer exists.
 
 ### Link to Github Repository
 [https://github.com/jffsun/chall-eleven-ecommerce](https://github.com/jffsun/chall-eleven-ecommerce)
