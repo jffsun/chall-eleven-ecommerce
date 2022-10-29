@@ -83,9 +83,10 @@ router.post('/', async (req, res) => {
 
         // // Return to user the product's ID and tag_ids
         res.status(200).json(productTagIdArr);
-      }
+      } else {
       // If no product tags, just respond
       res.status(200).json(newProduct);
+      };
   } catch (err) {
     console.log(err);
     res.status(400).json(err);

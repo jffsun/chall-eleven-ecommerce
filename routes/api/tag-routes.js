@@ -98,7 +98,7 @@ router.delete('/:id', async (req, res) => {
             id: req.params.id,
         },
     });
-    res.status(200).json({deletedTag, message: `Deleted Category!` });
+    res.status(200).json({deletedTag, message: `Deleted Tag!` });
 
     } catch(err) {
         console.log(err);
